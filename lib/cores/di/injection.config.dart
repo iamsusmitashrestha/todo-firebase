@@ -31,8 +31,8 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       () => thirdPartyServicesModule.navigationService);
   gh.lazySingleton<_i4.SnackbarService>(
       () => thirdPartyServicesModule.snackBarService);
-  gh.factory<_i6.HomeViewModel>(() =>
-      _i6.HomeViewModel(get<_i3.AuthService>(), get<_i4.NavigationService>()));
+  gh.factory<_i6.HomeViewModel>(() => _i6.HomeViewModel(get<_i3.AuthService>(),
+      get<_i4.NavigationService>(), get<_i5.DatabaseService>()));
   gh.factory<_i7.RegisterViewModel>(() => _i7.RegisterViewModel(
       get<_i3.AuthService>(),
       get<_i4.SnackbarService>(),

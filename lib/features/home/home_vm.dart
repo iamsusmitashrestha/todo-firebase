@@ -10,6 +10,7 @@ import 'package:todo/services/database_service.dart';
 class HomeViewModel extends BaseViewModel {
   final AuthService _authService;
   final NavigationService _navigationService;
+  final DatabaseService databaseService;
 
   String name = "";
   bool isComplete = false;
@@ -18,7 +19,8 @@ class HomeViewModel extends BaseViewModel {
 
   AuthService get authService => _authService;
 
-  HomeViewModel(this._authService, this._navigationService);
+  HomeViewModel(
+      this._authService, this._navigationService, this.databaseService);
 
   void initialise() {}
 
@@ -37,11 +39,12 @@ class HomeViewModel extends BaseViewModel {
     }
   }
 
-  doneTodo() {
-    notifyListeners();
+  doneTodo(String id, bool isComplete) async {
+    // isComplete = !isComplete;
+    await DatabaseService().completeTodo(id, isComplete);
   }
 
-  removeTodo(String uid) async {
-    await DatabaseService().removeTodo(uid);
+  removeTodo(String id) async {
+    await DatabaseService().deleteTodo(id);
   }
 }

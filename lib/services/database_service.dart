@@ -1,40 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:injectable/injectable.dart';
-import 'package:todo/features/home/model/todo.dart';
 
 @injectable
 class DatabaseService {
-  CollectionReference todosCollection =
-      FirebaseFirestore.instance.collection("Todos");
+  FirebaseFirestore db = FirebaseFirestore.instance;
+  CollectionReference todoCollection =
+      FirebaseFirestore.instance.collection("Todo");
 
-  Future? addTodo(String title, String uid) {
-    if (uid == "") return null;
-    return todosCollection.add({
+  Future<void> addTodo(String title, String uid) {
+    return todoCollection.add({
       "title": title,
       "isComplete": false,
       "uid": uid,
     });
   }
 
-  Future completeTask(id) async {
-    await todosCollection.doc(id).update({"isComplete": true});
+  deleteTodo(String id) {
+    todoCollection.doc(id).delete();
   }
 
-  List<Todo> todoFromFirestore(QuerySnapshot snapshot) {
-    return snapshot.docs.map((e) {
-      return Todo(
-        uid: e.id,
-        title: e.data()!["title"],
-        isComplete: e.data()!["isComplete"],
-      );
-    }).toList();
-  }
-
-  Stream<List<Todo>> listTodos() {
-    return todosCollection.snapshots().map(todoFromFirestore);
-  }
-
-  removeTodo(uid) {
-    todosCollection.doc(uid).delete();
+  completeTodo(String id, bool isComplete) {
+    return todoCollection.doc(id).update({
+      "isComplete": isComplete,
+    });
   }
 }

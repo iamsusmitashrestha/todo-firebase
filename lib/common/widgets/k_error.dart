@@ -5,7 +5,7 @@ import 'k_outline_button.dart';
 
 class KError extends StatelessWidget {
   final String error;
-  final Function onRetry;
+  final void Function() onRetry;
 
   KError({required this.error, required this.onRetry});
 
